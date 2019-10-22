@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 using System.Web;
 
 namespace Webot.Common
 {
     public static class HttpUtil
     {
-        public static string Get(string url, int? timeOutSeconds, IDictionary<string, string> paramDic = null,
-            string authToken = null, Action<string> logFn = null)
+        public static async Task<string> GetAsync(string url, IDictionary<string, string> paramDic = null, int? timeOutSeconds = null)
         {
             Guid requestId = Guid.Empty;
             string paramStr = SerializeDictionary(paramDic);
@@ -25,25 +25,8 @@ namespace Webot.Common
                     Method = HttpMethod.Get,
                 };
 
-                if (!String.IsNullOrEmpty(authToken))
-                {
-                    request.Headers.Add("Authorization", authToken);
-                }
-
-                if (logFn != null)
-                {
-                    requestId = Guid.NewGuid();
-                    logFn(String.Format("[{0}][Get] {1}", requestId, url));
-                }
-
-                var sendTask = client.SendAsync(request);
-                sendTask.Wait();
-                var response = sendTask.Result.EnsureSuccessStatusCode();
+                var response = await client.SendAsync(request);
                 var responseContent = response.Content.ReadAsStringAsync().Result;
-                if (logFn != null)
-                {
-                    logFn(String.Format("[{0}][Response] {1}", requestId, responseContent));
-                }
                 return responseContent;
             }
         }

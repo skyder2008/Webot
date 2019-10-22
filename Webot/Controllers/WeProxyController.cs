@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text.RegularExpressions;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Webot.Common;
+using Webot.Services;
 
 namespace Webot.Controllers
 {
@@ -13,22 +8,25 @@ namespace Webot.Controllers
     [ApiController]
     public class WeProxyController : ControllerBase
     {
+        private WeloginService weloginService;
+
+        public WeProxyController()
+        {
+            weloginService = new WeloginService();
+        }
+
         [HttpGet]
         [Route("uuid")]
-        public string GetUuid()
+        public async Task<string> GetUuid()
         {
-            var paramsDic = new Dictionary<string, string>();
-            paramsDic.Add("appid", "wx782c26e4c19acffb");
-            paramsDic.Add("redirect_uri", "https://wx.qq.com/cgi-bin/mmwebwx-bin/webwxnewloginpage");
-            paramsDic.Add("fun", "new");
-            paramsDic.Add("lang", "zh_CN");
-            paramsDic.Add("_", (new DateTimeOffset(DateTime.UtcNow)).ToUnixTimeSeconds().ToString());
-            var response = HttpUtil.Get("https://login.wx.qq.com/jslogin", timeOutSeconds: 30, paramDic: paramsDic);
+            return await weloginService.GetUUid();
+        }
 
-            var pattern = "(?<=uuid = \").+(?=\";)";
-
-
-            return Regex.Match(response,pattern).Value;
+        [HttpGet]
+        [Route("login-check")]
+        public async Task<string> LoginCheck(string uuid)
+        {
+            return await weloginService.LoginCheck(uuid);
         }
     }
 }
