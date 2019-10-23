@@ -33,5 +33,11 @@ namespace Webot.Services
             var response = await HttpUtil.GetAsync("https://login.wx.qq.com/cgi-bin/mmwebwx-bin/login", paramDic: paramsDic, timeOutSeconds: 30);
             return response;
         }
+
+        public async Task<string> GetAuthInfo(string redirectUrl)
+        {
+            var response = await HttpUtil.GetAsync(redirectUrl, timeOutSeconds: 30);
+            return response;
+        }
     }
 }

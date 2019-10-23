@@ -28,5 +28,12 @@ namespace Webot.Controllers
         {
             return await weloginService.LoginCheck(uuid);
         }
+
+        [HttpGet]
+        [Route("auth-info")]
+        public async Task<string> GetAuthInfo(string redirectUrl)
+        {
+            return await weloginService.GetAuthInfo(redirectUrl);
+        }
     }
 }

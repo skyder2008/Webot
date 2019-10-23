@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { WeProxyService } from '../../services/we-proxy.service';
+import { Observable } from 'rxjs';
 import { debug } from 'util';
 
 @Component({
@@ -8,25 +10,21 @@ import { debug } from 'util';
     styleUrls: ['./webot.component.css']
 })
 export class WebotComponent implements OnInit {
-    private uuid: string;
-    public QRCodeSrc: string;
-
-    constructor(private weProxyService: WeProxyService) { }
+    //redirectUrl: string;
+    constructor(private activeInfo: ActivatedRoute,
+        private weproxyService: WeProxyService) {
+    }
 
     ngOnInit() {
-        this.weProxyService.getUUid().subscribe(resp => {
-            this.uuid = resp;
-            this.QRCodeSrc = `https://login.weixin.qq.com/qrcode/${this.uuid}`;
-
-            this.checkLogin();
+        this.activeInfo.queryParams.subscribe(params => {
+            let redirectUrl = params.redicrectUrl;
+            this.getAuthInfo(redirectUrl).subscribe(resp => {
+                debugger
+            });
         });
     }
 
-    checkLogin() {
-        this.weProxyService.checkLogin(this.uuid).subscribe(resp => {
-            console.log(resp);
-            this.checkLogin();
-        });
-    }
-
+    getAuthInfo(redirectUrl: string): Observable<string> {
+        return this.weproxyService.getAuthInfo(redirectUrl);
+    } 
 }
