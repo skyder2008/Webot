@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -48,11 +49,26 @@ namespace Webot.Services
 
         public async Task<string> InitWechat(AuthInfoDto authInfo)
         {
-            var baseRequestStr = $"{{\"BaseRequest\":{{\"Uin\":\"{authInfo.Wxuin}\",\"Sid\":\"{authInfo.Wxsid}\",\"Skey\":\"\",\"DeviceID\":\"e" + NumUtil.RandomNum(15) + "\"}}}}";
+            var baseRequestStr = $"{{\"BaseRequest\":{{\"Uin\":\"{authInfo.Wxuin}\",\"Sid\":\"{authInfo.Wxsid}\",\"Skey\":\"\",\"DeviceID\":\"e{authInfo.DeviceId}\"}}}}";
             var paramsDic = new Dictionary<string, string>();
             paramsDic.Add("r", (~TimeUtil.GetCurrentTimeStamp()).ToString());
             paramsDic.Add("pass_ticket", authInfo.PassTicket);
             var response = await HttpUtil.PostAsync("https://wx.qq.com/cgi-bin/mmwebwx-bin/webwxinit", paramDic: paramsDic, postContent: baseRequestStr);
+            return response;
+        }
+
+        public async Task<string> SyncCheck(SyncCheckDto syncCheck)
+        {
+            var paramsDic = new Dictionary<string, string>();
+            paramsDic.Add("sid", syncCheck.Wxsid);//(~TimeUtil.GetCurrentTimeStamp()).ToString());
+            paramsDic.Add("uin", syncCheck.Wxuin);
+            paramsDic.Add("synckey", syncCheck.SyncKey);
+            paramsDic.Add("r", TimeUtil.GetCurrentTimeStamp().ToString());
+            paramsDic.Add("skey", syncCheck.Skey);
+            paramsDic.Add("deviceId", syncCheck.DeviceId);
+            paramsDic.Add("_", TimeUtil.GetCurrentTimeStamp().ToString());
+
+            var response = await HttpUtil.GetAsync(syncCheck.SyncUrl + "/cgi-bin/mmwebwx-bin/synccheck", paramDic: paramsDic);
             return response;
         }
 

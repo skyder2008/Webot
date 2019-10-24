@@ -43,5 +43,12 @@ namespace Webot.Controllers
         {
             return await weloginService.InitWechat(authInfo);
         }
+
+        [HttpPost]
+        [Route("sync-check")]
+        public async Task<string> SyncCheck(SyncCheckDto syncCheck)
+        {
+            return await weloginService.SyncCheck(syncCheck);
+        }
     }
 }

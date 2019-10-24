@@ -30,4 +30,9 @@ export class WeProxyService {
         const url = '/api/weproxy/init-wechat';
         return this.http.post<string>(url, authInfo);
     }
+
+    syncCheck(syncCheck): Observable<string> {
+        const url = '/api/weproxy/sync-check';
+        return this.http.post<string>(url, syncCheck, { responseType: 'text' as 'json' });
+    }
 }
