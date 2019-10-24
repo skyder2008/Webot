@@ -23,6 +23,11 @@ export class WeProxyService {
     getAuthInfo(redirectUrl: string): Observable<string> {
         const url = '/api/weproxy/auth-info';
         const params = new HttpParams().set("redirectUrl", redirectUrl);
-        return this.http.get<string>(url, { params, responseType: 'text' as 'json' })
+        return this.http.get<string>(url, { params, responseType: 'json' })
+    }
+
+    initWechat(authInfo): Observable<string> {
+        const url = '/api/weproxy/init-wechat';
+        return this.http.post<string>(url, authInfo);
     }
 }

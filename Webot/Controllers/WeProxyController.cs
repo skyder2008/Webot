@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using Webot.Dtos;
 using Webot.Services;
 
 namespace Webot.Controllers
@@ -31,9 +32,16 @@ namespace Webot.Controllers
 
         [HttpGet]
         [Route("auth-info")]
-        public async Task<string> GetAuthInfo(string redirectUrl)
+        public async Task<AuthInfoDto> GetAuthInfo(string redirectUrl)
         {
             return await weloginService.GetAuthInfo(redirectUrl);
+        }
+
+        [HttpPost]
+        [Route("init-wechat")]
+        public async Task<string> InitWechat(AuthInfoDto authInfo)
+        {
+            return await weloginService.InitWechat(authInfo);
         }
     }
 }

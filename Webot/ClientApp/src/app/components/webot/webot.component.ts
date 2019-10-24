@@ -10,7 +10,12 @@ import { debug } from 'util';
     styleUrls: ['./webot.component.css']
 })
 export class WebotComponent implements OnInit {
-    //redirectUrl: string;
+    redirectUrl: string;
+    private skey: string;
+    private wxsid: string;
+    private wxuin: string;
+    private passTicket: string;
+
     constructor(private activeInfo: ActivatedRoute,
         private weproxyService: WeProxyService) {
     }
@@ -20,11 +25,27 @@ export class WebotComponent implements OnInit {
             let redirectUrl = params.redicrectUrl;
             this.getAuthInfo(redirectUrl).subscribe(resp => {
                 debugger
+                this.skey = resp['skey'];
+                this.wxsid = resp['wxsid'];
+                this.wxuin = resp['wxuin'];
+                this.passTicket = resp['passTicket'];
+                this.initWechat().subscribe(resp => {
+                    this.
+                });
             });
         });
     }
 
     getAuthInfo(redirectUrl: string): Observable<string> {
         return this.weproxyService.getAuthInfo(redirectUrl);
-    } 
+    }
+
+    initWechat() {
+        return this.weproxyService.initWechat({
+            skey: this.skey,
+            wxsid: this.wxsid,
+            wxuin: this.wxuin,
+            passTicket: this.passTicket,
+        });
+    }
 }

@@ -1,7 +1,12 @@
 ﻿using System.Collections.Generic;
+using System.IO;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Xml;
+using System.Xml.Serialization;
 using Webot.Common;
+using Webot.Dtos;
 
 namespace Webot.Services
 {
@@ -15,7 +20,7 @@ namespace Webot.Services
             paramsDic.Add("fun", "new");
             paramsDic.Add("lang", "zh_CN");
             paramsDic.Add("_", TimeUtil.GetCurrentTimeStamp().ToString());
-            var response = await HttpUtil.GetAsync("https://login.wx.qq.com/jslogin", paramDic: paramsDic, timeOutSeconds: 30);
+            var response = await HttpUtil.GetAsync("https://login.wx.qq.com/jslogin", paramDic: paramsDic);
 
             var pattern = "(?<=uuid = \").+(?=\";)";
             return Regex.Match(response, pattern).Value;
@@ -30,14 +35,37 @@ namespace Webot.Services
             paramsDic.Add("r", (~TimeUtil.GetCurrentTimeStamp()).ToString());
             paramsDic.Add("_", TimeUtil.GetCurrentTimeStamp().ToString());
 
-            var response = await HttpUtil.GetAsync("https://login.wx.qq.com/cgi-bin/mmwebwx-bin/login", paramDic: paramsDic, timeOutSeconds: 30);
+            var response = await HttpUtil.GetAsync("https://login.wx.qq.com/cgi-bin/mmwebwx-bin/login", paramDic: paramsDic);
             return response;
         }
 
-        public async Task<string> GetAuthInfo(string redirectUrl)
+        public async Task<AuthInfoDto> GetAuthInfo(string redirectUrl)
         {
-            var response = await HttpUtil.GetAsync(redirectUrl, timeOutSeconds: 30);
+            var response = await HttpUtil.GetAsync(redirectUrl+ "&fun=new&version=v2");
+
+            return GetAuthInfoByStr(response);
+        }
+
+        public async Task<string> InitWechat(AuthInfoDto authInfo)
+        {
+            var baseRequestStr = $"{{\"BaseRequest\":{{\"Uin\":\"{authInfo.Wxuin}\",\"Sid\":\"{authInfo.Wxsid}\",\"Skey\":\"\",\"DeviceID\":\"e" + NumUtil.RandomNum(15) + "\"}}}}";
+            var paramsDic = new Dictionary<string, string>();
+            paramsDic.Add("r", (~TimeUtil.GetCurrentTimeStamp()).ToString());
+            paramsDic.Add("pass_ticket", authInfo.PassTicket);
+            var response = await HttpUtil.PostAsync("https://wx.qq.com/cgi-bin/mmwebwx-bin/webwxinit", paramDic: paramsDic, postContent: baseRequestStr);
             return response;
+        }
+
+        private AuthInfoDto GetAuthInfoByStr(string authInfoStr)
+        {
+            var authInfo = new AuthInfoDto();
+            var patternTempate = "(?<=\\<{0}\\>).+(?=\\</{0}\\>)";
+            authInfo.Skey = Regex.Match(authInfoStr, string.Format(patternTempate, "skey")).Value;
+            authInfo.Wxsid = Regex.Match(authInfoStr, string.Format(patternTempate, "wxsid")).Value;
+            authInfo.Wxuin = Regex.Match(authInfoStr, string.Format(patternTempate, "wxuin")).Value;
+            authInfo.PassTicket = Regex.Match(authInfoStr, string.Format(patternTempate, "pass_ticket")).Value;
+
+            return authInfo;
         }
     }
 }

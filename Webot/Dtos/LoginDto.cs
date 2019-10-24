@@ -10,4 +10,12 @@ namespace Webot.Dtos
         public string Code { get; set; }
         public string Uuid { get; set; }
     }
+
+    public class AuthInfoDto
+    {
+        public string Skey { get; set; }
+        public string Wxsid { get; set; }
+        public string Wxuin { get; set; }
+        public string PassTicket { get; set; }
+    }
 }

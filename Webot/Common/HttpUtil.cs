@@ -1,15 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using System.Xml;
+using System.Xml.Serialization;
 
 namespace Webot.Common
 {
     public static class HttpUtil
     {
-        public static async Task<string> GetAsync(string url, IDictionary<string, string> paramDic = null, int? timeOutSeconds = null)
+        public static async Task<string> GetAsync(string url, IDictionary<string, string> paramDic = null)
         {
             Guid requestId = Guid.Empty;
             string paramStr = SerializeDictionary(paramDic);
@@ -17,7 +20,7 @@ namespace Webot.Common
             {
                 url += "?" + paramStr;
             }
-            using (var client = GetHttpClient(timeOutSeconds))
+            using (var client = GetHttpClient())
             {
                 var request = new HttpRequestMessage
                 {
@@ -27,6 +30,35 @@ namespace Webot.Common
 
                 var response = await client.SendAsync(request);
                 var responseContent = response.Content.ReadAsStringAsync().Result;
+
+                return responseContent;
+            }
+        }
+
+        public static async Task<string> PostAsync(string url, IDictionary<string, string> paramDic = null,
+                    string postContent = null)
+        {
+            Guid requestId = Guid.Empty;
+            string paramStr = SerializeDictionary(paramDic);
+            if (!String.IsNullOrEmpty(paramStr))
+            {
+                url += "?" + paramStr;
+            }
+            using (var client = GetHttpClient())
+            {
+                var request = new HttpRequestMessage
+                {
+                    RequestUri = new Uri(url),
+                    Method = HttpMethod.Post,
+                };
+                request.Headers.Add("ContentType", "application/json; charset=UTF-8");
+                if (!String.IsNullOrEmpty(postContent))
+                {
+                    request.Content = new StringContent(postContent, Encoding.UTF8);
+                }
+
+                var response = await client.SendAsync(request);
+                var responseContent = await response.Content.ReadAsStringAsync();
                 return responseContent;
             }
         }
