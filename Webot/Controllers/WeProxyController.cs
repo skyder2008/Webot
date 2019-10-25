@@ -39,9 +39,9 @@ namespace Webot.Controllers
 
         [HttpPost]
         [Route("init-wechat")]
-        public async Task<string> InitWechat(AuthInfoDto authInfo)
+        public async Task<string> InitWechat(WechatInitDto initInfo)
         {
-            return await weloginService.InitWechat(authInfo);
+            return await weloginService.InitWechat(initInfo);
         }
 
         [HttpPost]
@@ -49,6 +49,15 @@ namespace Webot.Controllers
         public async Task<string> SyncCheck(SyncCheckDto syncCheck)
         {
             return await weloginService.SyncCheck(syncCheck);
+        }
+
+        public async 
+
+        [HttpPost]
+        [Route("webwx-sync")]
+        public async Task<string> WebWXSync(WebWXSyncDto wxSyncInfo)
+        {
+            return await weloginService.WebWXSync(wxSyncInfo);
         }
     }
 }

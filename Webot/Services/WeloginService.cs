@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -47,20 +48,44 @@ namespace Webot.Services
             return GetAuthInfoByStr(response);
         }
 
-        public async Task<string> InitWechat(AuthInfoDto authInfo)
+        public async Task<string> InitWechat(WechatInitDto initInfo)
         {
-            var baseRequestStr = $"{{\"BaseRequest\":{{\"Uin\":\"{authInfo.Wxuin}\",\"Sid\":\"{authInfo.Wxsid}\",\"Skey\":\"\",\"DeviceID\":\"e{authInfo.DeviceId}\"}}}}";
+            var baseRequestStr = $"{{\"BaseRequest\":{{\"Uin\":\"{initInfo.Wxuin}\",\"Sid\":\"{initInfo.Wxsid}\",\"Skey\":\"{initInfo.Skey}\",\"DeviceID\":\"e{initInfo.DeviceId}\"}}}}";
             var paramsDic = new Dictionary<string, string>();
             paramsDic.Add("r", (~TimeUtil.GetCurrentTimeStamp()).ToString());
-            paramsDic.Add("pass_ticket", authInfo.PassTicket);
+            paramsDic.Add("pass_ticket", initInfo.PassTicket);
             var response = await HttpUtil.PostAsync("https://wx.qq.com/cgi-bin/mmwebwx-bin/webwxinit", paramDic: paramsDic, postContent: baseRequestStr);
+            return response;
+        }
+
+        public async Task<string> WebWXSync(WebWXSyncDto wxSyncInfo)
+        {
+            var requestPayload = new WebWXSyncRequestPayload()
+            {
+                BaseRequest = new BaseRequestDto() 
+                { 
+                    Uin= wxSyncInfo.Wxuin,
+                    Sid = wxSyncInfo.Wxsid,
+                    Skey = wxSyncInfo.Skey,
+                    DeviceID = wxSyncInfo.DeviceId,
+                },
+                SyncKey = wxSyncInfo.SyncKey,
+                rr = ~TimeUtil.GetCurrentTimeStamp()
+            };
+            var requestPayloadStr = JsonConvert.SerializeObject(requestPayload);
+            var paramsDic = new Dictionary<string, string>();
+            paramsDic.Add("sid", wxSyncInfo.Wxsid);
+            paramsDic.Add("skey", wxSyncInfo.Skey);
+            paramsDic.Add("pass_ticket", wxSyncInfo.PassTicket);
+            paramsDic.Add("lang", "zh_CN");
+            var response = await HttpUtil.PostAsync("https://wx.qq.com/cgi-bin/mmwebwx-bin/webwxsync", paramDic: paramsDic, postContent: requestPayloadStr);
             return response;
         }
 
         public async Task<string> SyncCheck(SyncCheckDto syncCheck)
         {
             var paramsDic = new Dictionary<string, string>();
-            paramsDic.Add("sid", syncCheck.Wxsid);//(~TimeUtil.GetCurrentTimeStamp()).ToString());
+            paramsDic.Add("sid", syncCheck.Wxsid);
             paramsDic.Add("uin", syncCheck.Wxuin);
             paramsDic.Add("synckey", syncCheck.SyncKey);
             paramsDic.Add("r", TimeUtil.GetCurrentTimeStamp().ToString());

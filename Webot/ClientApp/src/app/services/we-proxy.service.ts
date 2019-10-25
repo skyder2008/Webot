@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { WechatInitResponse, WechatAuthInfo, SyncCheckInfo, WechatInitInfo, WebWXSyncInfo, WebWXSyncResponse } from '../models/we-proxy.model';
 
 @Injectable({
     providedIn: 'root'
@@ -20,19 +21,24 @@ export class WeProxyService {
         return this.http.get<string>(url, { params, responseType: 'text' as 'json' })
     }
 
-    getAuthInfo(redirectUrl: string): Observable<string> {
+    getAuthInfo(redirectUrl: string): Observable<WechatAuthInfo> {
         const url = '/api/weproxy/auth-info';
         const params = new HttpParams().set("redirectUrl", redirectUrl);
-        return this.http.get<string>(url, { params, responseType: 'json' })
+        return this.http.get<WechatAuthInfo>(url, { params })
     }
 
-    initWechat(authInfo): Observable<string> {
+    initWechat(initInfo: WechatInitInfo): Observable<WechatInitResponse> {
         const url = '/api/weproxy/init-wechat';
-        return this.http.post<string>(url, authInfo);
+        return this.http.post<WechatInitResponse>(url, initInfo);
     }
 
-    syncCheck(syncCheck): Observable<string> {
+    syncCheck(syncCheck: SyncCheckInfo): Observable<string> {
         const url = '/api/weproxy/sync-check';
         return this.http.post<string>(url, syncCheck, { responseType: 'text' as 'json' });
+    }
+
+    webwxSync(webwxSyncInfo: WebWXSyncInfo): Observable<WebWXSyncResponse> {
+        const url = '/api/weproxy/webwx-sync';
+        return this.http.post<WebWXSyncResponse>(url, webwxSyncInfo)
     }
 }
