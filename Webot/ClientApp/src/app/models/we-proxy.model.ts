@@ -57,4 +57,8 @@ export class WebWXSyncInfo extends WechatInitInfo
     SyncKey: SyncKey;
 }
 
+export class WebWXStatusNotifyInfo extends WechatInitInfo {
+    userName: string;
+}
+
 

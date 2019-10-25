@@ -97,6 +97,30 @@ namespace Webot.Services
             return response;
         }
 
+        public async Task<string> WebWXStatusNotify(WebWXStatusNotifyDto statusNotifyInfo)
+        {
+            var requestPayload = new WebWXStatusNotifyRequestPayload()
+            {
+                BaseRequest = new BaseRequestDto()
+                {
+                    Uin = statusNotifyInfo.Wxuin,
+                    Sid = statusNotifyInfo.Wxsid,
+                    Skey = statusNotifyInfo.Skey,
+                    DeviceID = statusNotifyInfo.DeviceId,
+                },
+                Code = 3,
+                FromUserName = statusNotifyInfo.UserName,
+                ToUserName = statusNotifyInfo.UserName,
+                ClientMsgId = TimeUtil.GetCurrentTimeStamp(),
+            };
+            var requestPayloadStr = JsonConvert.SerializeObject(requestPayload);
+            var paramsDic = new Dictionary<string, string>();
+            paramsDic.Add("lang", "zh_CN");
+            paramsDic.Add("pass_ticket", statusNotifyInfo.PassTicket);
+            var response = await HttpUtil.PostAsync("https://wx.qq.com/cgi-bin/mmwebwx-bin/webwxstatusnotify", paramDic: paramsDic, postContent: requestPayloadStr);
+            return response;
+        }
+
         private AuthInfoDto GetAuthInfoByStr(string authInfoStr)
         {
             var authInfo = new AuthInfoDto();

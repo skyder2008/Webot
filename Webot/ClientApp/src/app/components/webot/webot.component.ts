@@ -35,10 +35,13 @@ export class WebotComponent implements OnInit {
                     this.user = initInfo.User;
                     this.syncKey.Count = initInfo.SyncKey.Count;
                     this.syncKey.List = initInfo.SyncKey.List;
-                    this.webwxSync().subscribe(syncResp => {
-                        this.syncKey.Count = syncResp.SyncKey.Count;
-                        this.syncKey.List = syncResp.SyncKey.List;
-                        this.syncCheck();
+                    debugger
+                    this.webwxStatusNotify().subscribe(notifyResp => {
+                        this.webwxSync().subscribe(syncResp => {
+                            this.syncKey.Count = syncResp.SyncKey.Count;
+                            this.syncKey.List = syncResp.SyncKey.List;
+                            this.syncCheck();
+                        });
                     });
                 });
             });
@@ -81,6 +84,17 @@ export class WebotComponent implements OnInit {
             deviceId: this.deviceId,
             SyncKey: this.syncKey,
             passTicket: this.wechatAuthInfo.passTicket,
+        });
+    }
+
+    webwxStatusNotify() {
+        return this.weproxyService.webwxStatusNotify({
+            wxuin: this.wechatAuthInfo.wxuin,
+            wxsid: this.wechatAuthInfo.wxsid,
+            skey: this.wechatAuthInfo.skey,
+            deviceId: this.deviceId,
+            passTicket: this.wechatAuthInfo.passTicket,
+            userName: this.user.UserName,
         });
     }
 

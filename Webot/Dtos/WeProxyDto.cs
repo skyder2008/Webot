@@ -65,4 +65,18 @@ namespace Webot.Dtos
         public SyncKeyDto SyncKey { get; set; }
         public long rr { get; set; }
     }
+
+    public class WebWXStatusNotifyDto : WechatInitDto
+    {
+        public string UserName { get; set; }
+    }
+
+    public class WebWXStatusNotifyRequestPayload
+    {
+        public BaseRequestDto BaseRequest { get; set; }
+        public int Code { get; set; }
+        public string FromUserName { get; set; }
+        public string ToUserName { get; set; }
+        public long ClientMsgId { get; set; }
+    }
 }

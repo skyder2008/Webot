@@ -51,7 +51,12 @@ namespace Webot.Controllers
             return await weloginService.SyncCheck(syncCheck);
         }
 
-        public async 
+        [HttpPost]
+        [Route("status-notify")]
+        public async Task<string> WebWXStatusNotify(WebWXStatusNotifyDto statusNotifyInfo)
+        {
+            return await weloginService.WebWXStatusNotify(statusNotifyInfo);
+        }
 
         [HttpPost]
         [Route("webwx-sync")]
