@@ -27,6 +27,7 @@ namespace Webot.Common
                     RequestUri = new Uri(url),
                     Method = HttpMethod.Get,
                 };
+                request.Headers.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.120 Safari/537.36");
 
                 var response = await client.SendAsync(request);
                 var responseContent = response.Content.ReadAsStringAsync().Result;
@@ -52,6 +53,7 @@ namespace Webot.Common
                     Method = HttpMethod.Post,
                 };
                 request.Headers.Add("ContentType", "application/json; charset=UTF-8");
+                request.Headers.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.120 Safari/537.36");
                 if (!String.IsNullOrEmpty(postContent))
                 {
                     request.Content = new StringContent(postContent, Encoding.UTF8);
