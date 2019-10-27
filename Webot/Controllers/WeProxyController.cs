@@ -64,5 +64,12 @@ namespace Webot.Controllers
         {
             return await weloginService.WebWXSync(wxSyncInfo);
         }
+
+        [HttpPost]
+        [Route("webwx-sendmsg")]
+        public async Task<string> WebWXSendMsg(WebWXSendMsgDto msgSend)
+        {
+            return await weloginService.WebWXSendMsg(msgSend);
+        }
     }
 }

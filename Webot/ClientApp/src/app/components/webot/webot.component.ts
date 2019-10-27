@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { SyncKey, WechatAuthInfo, WebWXSyncResponse, WechatUser } from '../../models/we-proxy.model';
+import { SyncKey, WechatAuthInfo, WebWXSyncResponse, WechatUser, WebWXMsgSendDto, WechatMsg } from '../../models/we-proxy.model';
 import { WeProxyService } from '../../services/we-proxy.service';
 
 @Component({
@@ -13,14 +13,13 @@ export class WebotComponent implements OnInit {
     syncResult: string;
     private syncUrl: string;
 
-    private deviceId: string;
+    //private deviceId: string;
     private wechatAuthInfo: WechatAuthInfo;
     private user: WechatUser;
     private syncKey: SyncKey;
 
     constructor(private activeInfo: ActivatedRoute,
         private weproxyService: WeProxyService) {
-        this.deviceId = 'e' + Math.floor(Math.random() * 1000000000000000 + 1);
         this.syncKey = new SyncKey();
     }
 
@@ -35,13 +34,10 @@ export class WebotComponent implements OnInit {
                     this.user = initInfo.User;
                     this.syncKey.Count = initInfo.SyncKey.Count;
                     this.syncKey.List = initInfo.SyncKey.List;
-                    debugger
-                    this.webwxStatusNotify().subscribe(notifyResp => {
-                        this.webwxSync().subscribe(syncResp => {
-                            this.syncKey.Count = syncResp.SyncKey.Count;
-                            this.syncKey.List = syncResp.SyncKey.List;
-                            this.syncCheck();
-                        });
+                    this.webwxSync().subscribe(syncResp => {
+                        this.syncKey.Count = syncResp.SyncKey.Count;
+                        this.syncKey.List = syncResp.SyncKey.List;
+                        this.syncCheck();
                     });
                 });
             });
@@ -58,7 +54,8 @@ export class WebotComponent implements OnInit {
             wxsid: this.wechatAuthInfo.wxsid,
             wxuin: this.wechatAuthInfo.wxuin,
             passTicket: this.wechatAuthInfo.passTicket,
-            deviceId: this.deviceId,
+            deviceId: this.getDeviceId(),
+            dataTicket: null,
         });
     }
 
@@ -68,11 +65,40 @@ export class WebotComponent implements OnInit {
             wxsid: this.wechatAuthInfo.wxsid,
             wxuin: this.wechatAuthInfo.wxuin,
             syncKey: this.syncKey.toString1(),
-            deviceId: this.deviceId,
+            deviceId: this.getDeviceId(),
             syncUrl: this.syncUrl,
+            dataTicket: this.wechatAuthInfo.dataTicket,
+            passTicket: this.wechatAuthInfo.passTicket,
         }).subscribe(resp => {
-            this.syncResult = resp;
-            this.syncCheck();
+            eval(resp);
+            var syncCheck = window['synccheck'];
+            if (syncCheck['retcode'] === '0') {
+                var selector = syncCheck['selector'];
+                if (selector === '0') {
+                    this.syncCheck();
+                } else if (selector === '2') {
+                    this.webwxSync().subscribe(syncResp => {
+                        this.syncKey.Count = syncResp.SyncKey.Count;
+                        this.syncKey.List = syncResp.SyncKey.List;
+                        if (syncResp.AddMsgList.length > 0) {
+                            syncResp.AddMsgList.forEach(msg => {
+                                if (msg.MsgType === 1) {
+                                    this.webwxSendMsg({
+                                        ToUserName: msg.FromUserName,
+                                        FromUserName: this.user.UserName,
+                                        MsgId: (new Date()).getTime().toString(),
+                                        Type: 1,
+                                        Content: `你发送的信息是：${msg.Content}`,
+                                    }).subscribe();
+                                }
+                            });
+                        }
+                        this.syncCheck();
+                    });
+                }
+            }
+            //this.syncResult = resp;
+
         });
     }
 
@@ -81,9 +107,10 @@ export class WebotComponent implements OnInit {
             wxuin: this.wechatAuthInfo.wxuin,
             wxsid: this.wechatAuthInfo.wxsid,
             skey: this.wechatAuthInfo.skey,
-            deviceId: this.deviceId,
+            deviceId: this.getDeviceId(),
             SyncKey: this.syncKey,
             passTicket: this.wechatAuthInfo.passTicket,
+            dataTicket: this.wechatAuthInfo.dataTicket,
         });
     }
 
@@ -92,29 +119,46 @@ export class WebotComponent implements OnInit {
             wxuin: this.wechatAuthInfo.wxuin,
             wxsid: this.wechatAuthInfo.wxsid,
             skey: this.wechatAuthInfo.skey,
-            deviceId: this.deviceId,
+            deviceId: this.getDeviceId(),
             passTicket: this.wechatAuthInfo.passTicket,
             userName: this.user.UserName,
+            dataTicket: this.wechatAuthInfo.dataTicket,
         });
+    }
+
+    webwxSendMsg(msg: WechatMsg) {
+        return this.weproxyService.webwxSendMsg({
+            wxuin: this.wechatAuthInfo.wxuin,
+            wxsid: this.wechatAuthInfo.wxsid,
+            skey: this.wechatAuthInfo.skey,
+            deviceId: this.getDeviceId(),
+            passTicket: this.wechatAuthInfo.passTicket,
+            dataTicket: this.wechatAuthInfo.dataTicket,
+            msg: msg,
+        })
     }
 
     getSyncUrl(redirectUrl: string) {
         let syncUrl = null;
         if (redirectUrl.indexOf("wx2.qq.com") > -1) {
             syncUrl = "https://webpush2.weixin.qq.com";
-        }else if (redirectUrl.indexOf("wx.qq.com") > -1) {
+        } else if (redirectUrl.indexOf("wx.qq.com") > -1) {
             syncUrl = "https://webpush.wx.qq.com";
-        }else if (redirectUrl.indexOf("web1.wechat.com") > -1) {
+        } else if (redirectUrl.indexOf("web1.wechat.com") > -1) {
             syncUrl = "https://webpush1.wechat.com";
-        }else if (redirectUrl.indexOf("web2.wechat.com") > -1) {
+        } else if (redirectUrl.indexOf("web2.wechat.com") > -1) {
             syncUrl = "https://webpush2.wechat.com";
-        }else if (redirectUrl.indexOf("web.wechat.com") > -1) {
+        } else if (redirectUrl.indexOf("web.wechat.com") > -1) {
             syncUrl = "https://webpush.wechat.com";
-        }else if (redirectUrl.indexOf("web1.wechatapp.com") > -1) {
+        } else if (redirectUrl.indexOf("web1.wechatapp.com") > -1) {
             syncUrl = "https://webpush1.wechatapp.com";
-        }else if (redirectUrl.indexOf("web.wechatapp.com") > -1) {
+        } else if (redirectUrl.indexOf("web.wechatapp.com") > -1) {
             syncUrl = "https://webpush.wechatapp.com";
         }
         return syncUrl;
+    }
+
+    getDeviceId(): string {
+        return "e" + ("" + Math.random().toFixed(15)).substring(2, 17);
     }
 }

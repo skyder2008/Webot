@@ -3,9 +3,10 @@ export class WechatAuthInfo {
     wxsid: string;
     wxuin: string;
     passTicket: string;
+    dataTicket: string;
 }
 
-export class WechatInitInfo extends WechatAuthInfo{
+export class WechatInitInfo extends WechatAuthInfo {
     deviceId: string;
 }
 
@@ -17,7 +18,7 @@ export class SyncKeyItem {
 export class SyncKey {
     Count: number;
     List: Array<SyncKeyItem>;
-    toString1(): string{
+    toString1(): string {
         if (this.List == null) {
             return null;
         }
@@ -39,26 +40,43 @@ export class WechatInitResponse {
     User: WechatUser;
 }
 
+export class WechatSyncMsg {
+    MsgId: string;
+    FromUserName: string;
+    ToUserName: string;
+    MsgType: number;
+    Content: string;
+}
+
 export class WebWXSyncResponse {
     SyncKey: SyncKey;
+    AddMsgList: Array<WechatSyncMsg>;
 }
 
-export class SyncCheckInfo {
-    skey: string;
-    wxsid: string;
-    wxuin: string;
+export class SyncCheckInfo extends WechatInitInfo {
     syncKey: string;
-    deviceId: string;
     syncUrl: string;
+    dataTicket: string;
 }
 
-export class WebWXSyncInfo extends WechatInitInfo
-{
+export class WebWXSyncInfo extends WechatInitInfo {
     SyncKey: SyncKey;
 }
 
 export class WebWXStatusNotifyInfo extends WechatInitInfo {
     userName: string;
+}
+
+export class WechatMsg {
+    MsgId: string;
+    FromUserName: string;
+    ToUserName: string;
+    Type: number;
+    Content: string;
+}
+
+export class WebWXMsgSendDto extends WechatInitInfo {
+    msg: WechatMsg;
 }
 
 

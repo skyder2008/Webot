@@ -17,6 +17,7 @@ namespace Webot.Dtos
         public string Wxsid { get; set; }
         public string Wxuin { get; set; }
         public string PassTicket { get; set; }
+        public string DataTicket { get; set; }
     }
 
     public class WechatInitDto: AuthInfoDto
@@ -37,6 +38,7 @@ namespace Webot.Dtos
         public string SyncKey { get; set; }
         public string DeviceId { get; set; }
         public string SyncUrl { get; set; }
+        public string DataTicket { get; set; }
     }
 
     public class SyncKeyItemDto
@@ -78,5 +80,26 @@ namespace Webot.Dtos
         public string FromUserName { get; set; }
         public string ToUserName { get; set; }
         public long ClientMsgId { get; set; }
+    }
+
+    public class WechatMsg
+    {
+        public string MsgId { get; set; }
+        public string FromUserName { get; set; }
+        public string ToUserName { get; set; }
+        public string Content { get; set; }
+        public int Type { get; set; }
+    }
+
+    public class WebWXSendMsgDto : WechatInitDto
+    { 
+        public WechatMsg Msg { get; set; }
+    }
+
+    public class WebWXMsgSendRequestPayload
+    {
+        public BaseRequestDto BaseRequest { get; set; }
+        public WechatMsg Msg { get; set; }
+        public int Scene { get; set; }
     }
 }

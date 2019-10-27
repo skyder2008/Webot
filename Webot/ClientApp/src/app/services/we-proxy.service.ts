@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { WechatInitResponse, WechatAuthInfo, SyncCheckInfo, WechatInitInfo, WebWXSyncInfo, WebWXSyncResponse, WebWXStatusNotifyInfo } from '../models/we-proxy.model';
+import { WechatInitResponse, WechatAuthInfo, SyncCheckInfo, WechatInitInfo, WebWXSyncInfo, WebWXSyncResponse, WebWXStatusNotifyInfo, WebWXMsgSendDto } from '../models/we-proxy.model';
 
 @Injectable({
     providedIn: 'root'
@@ -45,5 +45,10 @@ export class WeProxyService {
     webwxStatusNotify(statusNotifyInfo: WebWXStatusNotifyInfo) {
         const url = '/api/weproxy/status-notify';
         return this.http.post<string>(url, statusNotifyInfo);
+    }
+
+    webwxSendMsg(msgSend: WebWXMsgSendDto) {
+        const url = '/api/weproxy/webwx-sendmsg';
+        return this.http.post<string>(url, msgSend);
     }
 }

@@ -1,20 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
-using System.Xml;
-using System.Xml.Serialization;
 
 namespace Webot.Common
 {
     public static class HttpUtil
     {
-        public static async Task<string> GetAsync(string url, IDictionary<string, string> paramDic = null)
+        public static async Task<HttpResponseMessage> GetResponseAsync(string url, IDictionary<string, string> paramDic = null,
+            IDictionary<string, string> headers = null)
         {
-            Guid requestId = Guid.Empty;
             string paramStr = SerializeDictionary(paramDic);
             if (!String.IsNullOrEmpty(paramStr))
             {
@@ -27,17 +24,28 @@ namespace Webot.Common
                     RequestUri = new Uri(url),
                     Method = HttpMethod.Get,
                 };
+                if (headers != null)
+                {
+                    foreach (var header in headers)
+                    {
+                        request.Headers.Add(header.Key, header.Value);
+                    }
+                }
                 request.Headers.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.120 Safari/537.36");
 
-                var response = await client.SendAsync(request);
-                var responseContent = response.Content.ReadAsStringAsync().Result;
-
-                return responseContent;
+                return await client.SendAsync(request);
             }
         }
 
+        public static async Task<string> GetAsync(string url, IDictionary<string, string> paramDic = null, 
+            IDictionary<string,string> headers = null)
+        {
+            var response = await GetResponseAsync(url, paramDic: paramDic, headers: headers);
+            return await response.Content.ReadAsStringAsync();
+        }
+
         public static async Task<string> PostAsync(string url, IDictionary<string, string> paramDic = null,
-                    string postContent = null)
+            string postContent = null, IDictionary<string, string> headers = null)
         {
             Guid requestId = Guid.Empty;
             string paramStr = SerializeDictionary(paramDic);
@@ -52,11 +60,18 @@ namespace Webot.Common
                     RequestUri = new Uri(url),
                     Method = HttpMethod.Post,
                 };
-                request.Headers.Add("ContentType", "application/json; charset=UTF-8");
-                request.Headers.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.120 Safari/537.36");
                 if (!String.IsNullOrEmpty(postContent))
                 {
                     request.Content = new StringContent(postContent, Encoding.UTF8);
+                }
+                request.Headers.Add("ContentType", "application/json; charset=UTF-8");
+                request.Headers.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.120 Safari/537.36");
+                if (headers != null)
+                {
+                    foreach (var header in headers)
+                    {
+                        request.Headers.Add(header.Key, header.Value);
+                    }
                 }
 
                 var response = await client.SendAsync(request);
