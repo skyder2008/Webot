@@ -6,7 +6,6 @@ import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { WebotComponent } from './components/webot/webot.component';
 import { WeloginComponent } from './components/welogin/welogin.component';
-import { HomeComponent } from './home/home.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 
 
@@ -14,7 +13,6 @@ import { NavMenuComponent } from './nav-menu/nav-menu.component';
     declarations: [
         AppComponent,
         NavMenuComponent,
-        HomeComponent,
         WeloginComponent,
         WebotComponent
     ],
@@ -23,8 +21,7 @@ import { NavMenuComponent } from './nav-menu/nav-menu.component';
         HttpClientModule,
         FormsModule,
         RouterModule.forRoot([
-            { path: '', component: HomeComponent, pathMatch: 'full' },
-            { path: 'welogin', component: WeloginComponent },
+            { path: '', component: WeloginComponent },
             { path: 'webot', component: WebotComponent }
         ])
     ],

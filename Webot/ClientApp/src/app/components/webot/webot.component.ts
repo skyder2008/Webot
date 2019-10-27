@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { SyncKey, WechatAuthInfo, WebWXSyncResponse, WechatUser, WebWXMsgSendDto, WechatMsg } from '../../models/we-proxy.model';
+import { SyncKey, WechatAuthInfo, WechatMsg, WechatUser } from '../../models/we-proxy.model';
 import { WeProxyService } from '../../services/we-proxy.service';
 
 @Component({
@@ -10,7 +10,7 @@ import { WeProxyService } from '../../services/we-proxy.service';
     styleUrls: ['./webot.component.css']
 })
 export class WebotComponent implements OnInit {
-    syncResult: string;
+    showMessage: string;
     private syncUrl: string;
 
     //private deviceId: string;
@@ -39,6 +39,7 @@ export class WebotComponent implements OnInit {
                         this.syncKey.List = syncResp.SyncKey.List;
                         this.syncCheck();
                     });
+                    this.showMessage = `微信用户[${this.user.NickName}]已登陆`;
                 });
             });
         });

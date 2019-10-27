@@ -33,6 +33,7 @@ export class SyncKey {
 
 export class WechatUser {
     UserName: string;
+    NickName: string;
 }
 
 export class WechatInitResponse {
