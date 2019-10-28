@@ -1,15 +1,13 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ConfigHomeComponent } from './components/config-home/config-home.component';
-import { RouterModule } from '@angular/router';
-import { WEBOT_CONFIG_ROUTERS } from './webot-config.routers';
+import { NgModule } from '@angular/core';
+import { WebotConfigRoutingModule } from './webot-config-routing.module';
+import { WebotConfigComponent } from './webot-config.component';
 
 @NgModule({
-  declarations: [ConfigHomeComponent],
+    declarations: [WebotConfigComponent],
   imports: [
     CommonModule,
-    // RouterModule.forChild(WEBOT_CONFIG_ROUTERS),
-  ],
-  exports: [RouterModule]
+    WebotConfigRoutingModule
+  ]
 })
 export class WebotConfigModule { }

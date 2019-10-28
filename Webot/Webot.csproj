@@ -26,17 +26,21 @@
 
   <ItemGroup>
     <!-- Don't publish the SPA source files, but do show them in the project files list -->
+    <Compile Remove="ClientApp\src\app\services\**" />
     <Content Remove="$(SpaRoot)**" />
+    <Content Remove="ClientApp\src\app\services\**" />
+    <EmbeddedResource Remove="ClientApp\src\app\services\**" />
     <None Remove="$(SpaRoot)**" />
+    <None Remove="ClientApp\src\app\services\**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="ClientApp\src\app\services\auto-reply.service.ts" />
+    <None Remove="ClientApp\src\app\app-routing.module.ts" />
   </ItemGroup>
 
   <ItemGroup>
-    <TypeScriptCompile Include="ClientApp\src\app\services\auto-reply.service.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\app-routing.module.ts" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

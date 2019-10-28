@@ -1,16 +1,19 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
-import { WeloginComponent } from './components/welogin/welogin.component';
+import { NgModule } from '@angular/core';
 import { WebotComponent } from './components/webot/webot.component';
-import { WECHAT_PROXY_ROUTES } from './wechat-proxy.routes';
+import { WeloginComponent } from './components/welogin/welogin.component';
+import { WechatProxyRoutingModule } from './wechat-proxy-routing.module';
+import { WechatProxyComponent } from './wechat-proxy.component';
 
 @NgModule({
-  declarations: [WeloginComponent, WebotComponent],
-  imports: [
-    CommonModule,
-    RouterModule.forChild(WECHAT_PROXY_ROUTES),
-  ],
-  exports: [RouterModule]
+    declarations: [
+        WebotComponent,
+        WeloginComponent,
+        WechatProxyComponent,
+    ],
+    imports: [
+        CommonModule,
+        WechatProxyRoutingModule,
+    ],
 })
 export class WechatProxyModule { }
