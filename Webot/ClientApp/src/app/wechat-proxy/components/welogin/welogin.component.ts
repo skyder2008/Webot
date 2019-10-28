@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { SafeUrl, DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { WeProxyService } from '../../services/we-proxy.service';
@@ -8,7 +8,7 @@ import { WeProxyService } from '../../services/we-proxy.service';
     templateUrl: './welogin.component.html',
     styleUrls: ['./welogin.component.css']
 })
-export class WeloginComponent implements OnInit {
+export class WeloginComponent implements OnInit, OnDestroy {
     private uuid: string;
     public QRCodeSrc: SafeUrl;
 
@@ -26,7 +26,14 @@ export class WeloginComponent implements OnInit {
         });
     }
 
+    ngOnDestroy() {
+        this.uuid = null;
+    };
+
     checkLogin() {
+        if (this.uuid === null) {
+            return;
+        }
         this.weProxyService.checkLogin(this.uuid).subscribe(resp => {
             eval(resp);
             const responseCode = window['code'];
@@ -43,9 +50,5 @@ export class WeloginComponent implements OnInit {
                 this.router.navigate(['webot'], { queryParams: { redicrectUrl } });
             }
         });
-    }
-
-    wechatInit(redirectUrl: string) {
-        // this.weProxyService.getAuthInfo(this.re)
     }
 }
