@@ -2,11 +2,12 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { WebotConfigComponent } from './webot-config.component';
 
+
 const routes: Routes = [
-    {
-        path: '',
-        component: WebotConfigComponent,
-    }
+  {
+    path: '',
+    component: WebotConfigComponent,
+  }
 ];
 
 @NgModule({

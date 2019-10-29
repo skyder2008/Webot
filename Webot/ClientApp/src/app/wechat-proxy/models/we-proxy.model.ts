@@ -24,7 +24,7 @@ export class SyncKey {
       }
       let keyString = '';
       this.List.forEach(item => {
-          keyString += `${item.Key}_${item.Val}|`
+          keyString += `${item.Key}_${item.Val}|`;
       });
 
       return keyString.length > 0 ? keyString.substr(0, keyString.length - 1) : keyString;

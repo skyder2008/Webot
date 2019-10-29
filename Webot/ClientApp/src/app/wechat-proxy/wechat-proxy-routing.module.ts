@@ -1,27 +1,27 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { WebotComponent } from './components/webot/webot.component';
+import { Routes, RouterModule } from '@angular/router';
 import { WeloginComponent } from './components/welogin/welogin.component';
+import { WebotComponent } from './components/webot/webot.component';
+import { WechatProxyComponent } from './wechat-proxy.component';
+
 
 const routes: Routes = [
-    {
-        path: '',
-        redirectTo: 'welogin',
-        pathMatch: 'full',
-    },
-    {
-        path: 'welogin',
-        component: WeloginComponent,
-    },
-    {
-        path: 'webot',
-        component: WebotComponent,
-    }
+  {
+    path: '',
+    component: WechatProxyComponent,
+  },
+  {
+    path: 'welogin',
+    component: WeloginComponent,
+  },
+  {
+    path: 'webot',
+    component: WebotComponent,
+  }
 ];
 
 @NgModule({
-    imports: [RouterModule.forChild(routes)],
-    exports: [RouterModule],
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule]
 })
-
 export class WechatProxyRoutingModule { }

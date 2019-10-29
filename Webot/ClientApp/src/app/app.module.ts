@@ -1,29 +1,36 @@
-import { HttpClientModule } from '@angular/common/http';
-import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { NavMenuComponent } from './nav-menu/nav-menu.component';
-import { ShareModule } from './share/share.module';
+import { IconsProviderModule } from './icons-provider.module';
+import { NgZorroAntdModule, NZ_I18N, zh_CN } from 'ng-zorro-antd';
+import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { registerLocaleData } from '@angular/common';
+import zh from '@angular/common/locales/zh';
 import { WechatProxyModule } from './wechat-proxy/wechat-proxy.module';
 import { WebotConfigModule } from './webot-config/webot-config.module';
 
+registerLocaleData(zh);
+
 @NgModule({
-    declarations: [
-        AppComponent,
-        NavMenuComponent,
-    ],
-    imports: [
-        BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
-        HttpClientModule,
-        FormsModule,
-        ShareModule,
-        AppRoutingModule,
-        WechatProxyModule,
-        WebotConfigModule, 
-    ],
-    providers: [],
-    bootstrap: [AppComponent]
+  declarations: [
+    AppComponent
+  ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    IconsProviderModule,
+    NgZorroAntdModule,
+    FormsModule,
+    HttpClientModule,
+    BrowserAnimationsModule,
+    WechatProxyModule,
+    WebotConfigModule,
+  ],
+  providers: [{ provide: NZ_I18N, useValue: zh_CN }],
+  bootstrap: [AppComponent]
 })
 export class AppModule { }

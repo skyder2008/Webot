@@ -1,6 +1,53 @@
-<body>
-  <app-nav-menu></app-nav-menu>
-  <div class="container">
-    <router-outlet></router-outlet>
-  </div>
-</body>
+<nz-layout class="app-layout">
+  <nz-sider class="menu-sidebar"
+            nzCollapsible
+            nzWidth="256px"
+            nzBreakpoint="md"
+            [(nzCollapsed)]="isCollapsed"
+            [nzTrigger]="null">
+    <div class="sidebar-logo">
+      <a href="/">
+        <img src="https://ng.ant.design/assets/img/logo.svg" alt="logo">
+        <h1>微信机器人</h1>
+      </a>
+    </div>
+    <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
+      <li nz-menu-item nz-tooltip nzPlacement="right" [nzTitle]="isCollapsed ? '微信登录' : ''" nzSelected>
+        <a routerLink='/wechat-proxy'>
+          <i nz-icon nzType="wechat"></i>
+          <span>微信登录</span>
+        </a>
+      </li>
+      <li nz-submenu nzOpen nzTitle="配置" nzIcon="setting">
+        <ul>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="/webot-config">配置1</a>
+          </li>
+          <li nz-menu-item nzMatchRouter>
+            <a>配置2</a>
+          </li>
+          <li nz-menu-item nzMatchRouter>
+            <a>配置3</a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </nz-sider>
+  <nz-layout>
+    <nz-header>
+      <div class="app-header">
+        <span class="header-trigger" (click)="isCollapsed = !isCollapsed">
+            <i class="trigger"
+               nz-icon
+               [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
+            ></i>
+        </span>
+      </div>
+    </nz-header>
+    <nz-content>
+      <div class="inner-content">
+        <router-outlet></router-outlet>
+      </div>
+    </nz-content>
+  </nz-layout>
+</nz-layout>
