@@ -1,4 +1,21 @@
-<p>打开微信扫码登录：</p>
-<div>
-  <img [src]="QRCodeSrc" />
+<div class="welogin-main">
+  <div class="welogin-box" *ngIf="loginStatus==1||loginStatus==3">
+    <img [src]="QRCodeSrc" />
+    <div class="img-mask" *ngIf="loginStatus==3">
+      <i nz-icon nzType="reload"></i>
+    </div>
+    <div class="box-desc" *ngIf="loginStatus==1">
+      <p class="title">使用手机微信扫码登录</p>
+      <p class="sub-title">网页版微信需要配合手机使用</p>
+    </div>
+    <div class="box-desc" *ngIf="loginStatus==3">
+      <p class="title">二维码失效，点击刷新</p>
+    </div>
+  </div>
+  <div class="welogin-box" *ngIf="loginStatus==2">
+    <img [src]="userAvatar" class="user-avatar" />
+    <div class="box-desc">
+      <p class="title">扫码成功，请在手机端确定</p>
+    </div>
+  </div>
 </div>

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { StateService } from '../state/state.service';
 
 @Component({
   selector: 'app-webot-config',
@@ -6,10 +7,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./webot-config.component.css']
 })
 export class WebotConfigComponent implements OnInit {
+    private uuid: string;
+    constructor(private stateService: StateService) { }
 
-  constructor() { }
-
-  ngOnInit() {
+    ngOnInit() {
+        this.uuid = this.stateService.getWeProxyState().uuid;
   }
 
 }

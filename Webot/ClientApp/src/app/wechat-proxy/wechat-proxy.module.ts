@@ -12,6 +12,6 @@ import { WebotComponent } from './components/webot/webot.component';
   imports: [
     CommonModule,
     WechatProxyRoutingModule
-  ]
+  ],
 })
 export class WechatProxyModule { }

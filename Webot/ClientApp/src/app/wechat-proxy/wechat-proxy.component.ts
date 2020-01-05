@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { StateService } from '../state/state.service';
 
 @Component({
   selector: 'app-wechat-proxy',
@@ -7,9 +8,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class WechatProxyComponent implements OnInit {
 
-  constructor() { }
+    constructor(private stateService: StateService) { }
 
-  ngOnInit() {
+    ngOnInit() {
+        //this.stateService.setWeProxyState({ uuid: 'weproxy' })
   }
 
 }

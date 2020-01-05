@@ -12,25 +12,26 @@ import { registerLocaleData } from '@angular/common';
 import zh from '@angular/common/locales/zh';
 import { WechatProxyModule } from './wechat-proxy/wechat-proxy.module';
 import { WebotConfigModule } from './webot-config/webot-config.module';
+import { StateService } from './state/state.service';
 
 registerLocaleData(zh);
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    IconsProviderModule,
-    NgZorroAntdModule,
-    FormsModule,
-    HttpClientModule,
-    BrowserAnimationsModule,
-    WechatProxyModule,
-    WebotConfigModule,
-  ],
-  providers: [{ provide: NZ_I18N, useValue: zh_CN }],
-  bootstrap: [AppComponent]
+    declarations: [
+        AppComponent
+    ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        IconsProviderModule,
+        NgZorroAntdModule,
+        FormsModule,
+        HttpClientModule,
+        BrowserAnimationsModule,
+        WechatProxyModule,
+        WebotConfigModule,
+    ],
+    providers: [{ provide: NZ_I18N, useValue: zh_CN }, StateService],
+    bootstrap: [AppComponent]
 })
 export class AppModule { }

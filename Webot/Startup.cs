@@ -61,7 +61,7 @@ namespace Webot
 
                 spa.Options.SourcePath = "ClientApp";
 
-                if (env.IsDevelopment())
+                //if (env.IsDevelopment())
                 {
                     spa.UseProxyToSpaDevelopmentServer("http://localhost:4200");
                 }
