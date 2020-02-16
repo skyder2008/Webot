@@ -1,0 +1,11 @@
+D:\sourceCodes\Webot\Webot.Model\bin\Debug\netcoreapp3.0\Webot.Model.deps.json
+D:\sourceCodes\Webot\Webot.Model\bin\Debug\netcoreapp3.0\Webot.Model.dll
+D:\sourceCodes\Webot\Webot.Model\bin\Debug\netcoreapp3.0\Webot.Model.pdb
+D:\sourceCodes\Webot\Webot.Model\bin\Debug\netcoreapp3.0\Webot.Data.Core.dll
+D:\sourceCodes\Webot\Webot.Model\bin\Debug\netcoreapp3.0\Webot.Data.Core.pdb
+D:\sourceCodes\Webot\Webot.Model\obj\Debug\netcoreapp3.0\Webot.Model.csprojAssemblyReference.cache
+D:\sourceCodes\Webot\Webot.Model\obj\Debug\netcoreapp3.0\Webot.Model.AssemblyInfoInputs.cache
+D:\sourceCodes\Webot\Webot.Model\obj\Debug\netcoreapp3.0\Webot.Model.AssemblyInfo.cs
+D:\sourceCodes\Webot\Webot.Model\obj\Debug\netcoreapp3.0\Webot.Model.csproj.CopyComplete
+D:\sourceCodes\Webot\Webot.Model\obj\Debug\netcoreapp3.0\Webot.Model.dll
+D:\sourceCodes\Webot\Webot.Model\obj\Debug\netcoreapp3.0\Webot.Model.pdb
