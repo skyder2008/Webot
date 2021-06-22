@@ -1,8 +1,0 @@
-D:\sourceCodes\Webot\Webot.Data.Core\bin\Debug\netcoreapp3.0\Webot.Data.Core.deps.json
-D:\sourceCodes\Webot\Webot.Data.Core\bin\Debug\netcoreapp3.0\Webot.Data.Core.dll
-D:\sourceCodes\Webot\Webot.Data.Core\obj\Debug\netcoreapp3.0\Webot.Data.Core.AssemblyInfoInputs.cache
-D:\sourceCodes\Webot\Webot.Data.Core\obj\Debug\netcoreapp3.0\Webot.Data.Core.AssemblyInfo.cs
-D:\sourceCodes\Webot\Webot.Data.Core\bin\Debug\netcoreapp3.0\Webot.Data.Core.pdb
-D:\sourceCodes\Webot\Webot.Data.Core\obj\Debug\netcoreapp3.0\Webot.Data.Core.dll
-D:\sourceCodes\Webot\Webot.Data.Core\obj\Debug\netcoreapp3.0\Webot.Data.Core.pdb
-D:\sourceCodes\Webot\Webot.Data.Core\obj\Debug\netcoreapp3.0\Webot.Data.Core.csprojAssemblyReference.cache

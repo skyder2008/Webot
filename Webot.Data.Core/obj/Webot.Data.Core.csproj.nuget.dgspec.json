@@ -1,34 +1,32 @@
 {
   "format": 1,
   "restore": {
-    "D:\\sourceCodes\\Webot\\Webot.Data.Core\\Webot.Data.Core.csproj": {}
+    "D:\\SourceCode\\Webot\\Webot.Data.Core\\Webot.Data.Core.csproj": {}
   },
   "projects": {
-    "D:\\sourceCodes\\Webot\\Webot.Data.Core\\Webot.Data.Core.csproj": {
+    "D:\\SourceCode\\Webot\\Webot.Data.Core\\Webot.Data.Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\sourceCodes\\Webot\\Webot.Data.Core\\Webot.Data.Core.csproj",
+        "projectUniqueName": "D:\\SourceCode\\Webot\\Webot.Data.Core\\Webot.Data.Core.csproj",
         "projectName": "Webot.Data.Core",
-        "projectPath": "D:\\sourceCodes\\Webot\\Webot.Data.Core\\Webot.Data.Core.csproj",
-        "packagesPath": "C:\\Users\\sky\\.nuget\\packages\\",
-        "outputPath": "D:\\sourceCodes\\Webot\\Webot.Data.Core\\obj\\",
+        "projectPath": "D:\\SourceCode\\Webot\\Webot.Data.Core\\Webot.Data.Core.csproj",
+        "packagesPath": "C:\\Users\\profe\\.nuget\\packages\\",
+        "outputPath": "D:\\SourceCode\\Webot\\Webot.Data.Core\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
         "configFilePaths": [
-          "C:\\Users\\sky\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\profe\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
-          "netcoreapp3.0"
+          "net5.0"
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
-          "netcoreapp3.0": {
+          "net5.0": {
+            "targetAlias": "net5.0",
             "projectReferences": {}
           }
         },
@@ -39,11 +37,16 @@
         }
       },
       "frameworks": {
-        "netcoreapp3.0": {
+        "net5.0": {
+          "targetAlias": "net5.0",
           "dependencies": {
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
               "version": "[3.1.0, )"
+            },
+            "MongoDB.Driver": {
+              "target": "Package",
+              "version": "[2.12.4, )"
             }
           },
           "imports": [
@@ -61,7 +64,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.0.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.300\\RuntimeIdentifierGraph.json"
         }
       }
     }
