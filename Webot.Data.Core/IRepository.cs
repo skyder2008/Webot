@@ -6,8 +6,9 @@ using System.Text;
 
 namespace Webot.Data.Core
 {
-    public interface IRepository<TEntity>
-        where TEntity : EntityBase
+    public interface IRepository<TEntity, TId>
+        where TEntity : Record<TId>
+        where TId : IComparable
     {
         IQueryable<TEntity> All();
         IQueryable<TEntity> Filter(Expression<Func<TEntity, bool>> predicate);

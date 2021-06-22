@@ -1,15 +1,12 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using System;
 using System.Text;
-using Webot.Data;
 using Webot.Middlewares;
 
 namespace Webot
@@ -40,12 +37,6 @@ namespace Webot
             services.AddSpaStaticFiles(configuration =>
             {
                 configuration.RootPath = "ClientApp/dist";
-            });
-
-            services.AddDbContext<WebotDbContext>(options =>
-            {
-                var connectionStr = Configuration.GetConnectionString("WebotDb");
-                options.UseMySql(connectionStr);
             });
 
             services.AddAuthentication(options => 
