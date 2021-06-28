@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Webot.Data.Core\Webot.Data.Core.csproj" />
+    <ProjectReference Include="..\Webot.Infrastructure\Webot.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>

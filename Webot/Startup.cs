@@ -7,7 +7,13 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Webot.Data.Mongo;
+using Webot.Data.Mongo.MongoDBProviders;
+using Webot.Data.Mongo.Repository;
+using Webot.Data.Mongo.Repository.Imp;
+using Webot.Infrastructure.Settings;
 using Webot.Middlewares;
+using Webot.Service;
 
 namespace Webot
 {
@@ -63,6 +69,13 @@ namespace Webot
                         ClockSkew = tokenProviderOption.Expiration,
                     };
                 });
+
+            services.Configure<MongoSetting>(Configuration.GetSection(nameof(MongoSetting)));
+            //services.Configure<IOptions<MongoSetting>>(Configuration.GetSection(nameof(MongoSetting)));
+            services.AddSingleton<IMongoDBProvider, DefaultMongoDBProvider>();
+
+            services.AddScoped<IUserService, UserService>();
+            services.AddTransient<IUserDocRepository, UserDocRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

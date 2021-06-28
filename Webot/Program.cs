@@ -18,6 +18,10 @@ namespace Webot
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+            .ConfigureAppConfiguration((context ,config)=> 
+            {
+                config.AddJsonFile("appsettings.json", true, true);
+            })
             .UseUrls("http://*:80")
                 .UseStartup<Startup>();
     }
