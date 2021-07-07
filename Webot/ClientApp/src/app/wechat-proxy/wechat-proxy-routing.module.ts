@@ -6,18 +6,18 @@ import { WechatProxyComponent } from './wechat-proxy.component';
 
 
 const routes: Routes = [
-  {
-    path: '',
-    component: WechatProxyComponent,
-  },
-  {
-    path: 'welogin',
-    component: WeloginComponent,
-  },
-  {
-    path: 'webot',
-    component: WebotComponent,
-  }
+  // {
+  //   path: '',
+  //   component: WechatProxyComponent,
+  // },
+  // {
+  //   path: 'welogin',
+  //   component: WeloginComponent,
+  // },
+  // {
+  //   path: 'webot',
+  //   component: WebotComponent,
+  // }
 ];
 
 @NgModule({

@@ -5,16 +5,24 @@ const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: '/wechat-proxy',
+    redirectTo: '/webot-home',
   },
   {
-    path: 'wechat-proxy',
-    loadChildren: () => import('./wechat-proxy/wechat-proxy.module').then(m => m.WechatProxyModule),
+    path: 'webot-home',
+    loadChildren: () => import('./webot-home/webot-home.module').then(m => m.WebotHomeModule),
   },
   {
-    path: 'webot-config',
-    loadChildren: () => import('./webot-config/webot-config.module').then(m => m.WebotConfigModule),
-  }
+    path: 'webot-account',
+    loadChildren: () => import('./webot-account/webot-account.module').then(m => m.WebotAccountModule),
+  },
+  // {
+  //   path: 'webot-config',
+  //   loadChildren: () => import('./webot-config/webot-config.module').then(m => m.WebotConfigModule),
+  // },
+  // {
+  //   path: 'webot-account',
+  //   loadChildren: () => import('./webot-account/webot-account.module').then(m => m.WebotAccountModule),
+  // }
 ];
 
 @NgModule({
